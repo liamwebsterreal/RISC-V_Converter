@@ -9,6 +9,76 @@ def parser(instruction, first, last):
         print("Error! Check bounds!")
         exit()
 
+def binaryToDecimal(n):
+    return int(n,2)
+
+def digitToRegister(digit):
+    if digit == 0:
+        return "x0"
+    elif digit == 1:
+        return "ra"
+    elif digit == 2:
+        return "sp"
+    elif digit == 3:
+        return "gp"
+    elif digit == 4:
+        return "tp"
+    elif digit == 5:
+        return "t0"
+    elif digit == 6:
+        return "t1"
+    elif digit == 7:
+        return "t2"
+    elif digit == 8:
+        return "s0"
+    elif digit == 9:
+        return "s1"
+    elif digit == 10:
+        return "a0"
+    elif digit == 11:
+        return "a1"
+    elif digit == 12:
+        return "a2"
+    elif digit == 13:
+        return "a3"
+    elif digit == 14:
+        return "a4"
+    elif digit == 15:
+        return "a5"
+    elif digit == 16:
+        return "a6"
+    elif digit == 17:
+        return "a7"
+    elif digit == 18:
+        return "s2"
+    elif digit == 19:
+        return "s3"
+    elif digit == 20:
+        return "s4"
+    elif digit == 21:
+        return "s5"
+    elif digit == 22:
+        return "s6"
+    elif digit == 23:
+        return "s7"
+    elif digit == 24:
+        return "s8"
+    elif digit == 25:
+        return "s9"
+    elif digit == 26:
+        return "s10"
+    elif digit == 27:
+        return "s11"
+    elif digit == 28:
+        return "t3"
+    elif digit == 29:
+        return "t4"
+    elif digit == 30:
+        return "t5"
+    elif digit == 31:
+        return "t6"
+
+
 
 def format_getter(opcode):
     if opcode == '0000011':
@@ -83,14 +153,59 @@ def hex_converter(instruction):
         print("ERROR! Invalid Instruction")
         exit()
 
+def binary_RISCV(funct7,rs2,rs1,funct3,rd,opcode):
+    if opcode == '0110011':
+        if funct3 == '000':
+            if funct7 == '0000000':
+                arg0 = "add "
+            else:
+                arg0 = "sub "
+        elif funct3 == '001':
+            arg0 = "sll "
+        elif funct3 == '010':
+            arg0 = "slt "
+        elif funct3 == '011':
+            arg0 = "sltu" 
+        elif funct3 == '100':
+            arg0 = "xor "
+        elif funct3 == '101':
+            if funct7 == '0000000':
+                arg0 = "srl "
+            else:
+                arg0 = "sra "
+        elif funct3 == '110':
+            arg0 = "or "
+        elif funct3 == '111':
+            arg0 = "and "
+    elif opcode == '0111011':
+        if funct3 == '000':
+            if funct7 == '0000000':
+                arg0 = "addw "
+            else: 
+                arg0 = "subw "
+        elif funct3 == '001':
+            arg0 = "sllw "
+        elif funct3 == '101':
+            if funct7 == '0000000':
+                arg0 = "srlw "
+            else:
+                arg0 = "sraw "
+    arg1 = digitToRegister(binaryToDecimal(rd))
+    arg2 = digitToRegister(binaryToDecimal(rs1))
+    arg3 = digitToRegister(binaryToDecimal(rs2))
+    return arg0 + arg1 + " " + arg2 + " "  + arg3
+
+    
+
     
 def main():
 # (0->6 | 7->11 | 12->16 | 17->19 | 20->24 | 25->32)
-    #FBC71B23
-    #instruction = "11111011110001110001101100100011"
-    inst = "FBC71B23"
-    #if instruction hex converter to binary
-    instruction = hex_converter(inst)
+
+    inst = "00000000101001011000001010110011"
+    if len(inst) == 8:
+        instruction = hex_converter(inst)
+    else:
+        instruction = inst
     print(instruction)
     opcode = parser(instruction, 25, 32)
     rd = parser(instruction, 20, 25)
@@ -114,6 +229,15 @@ def main():
     elif format == "U" or format == "UJ":
         funct7 == parser(instruction, 0, 19)
         print("Funct7: ", funct7)
+    
+    #We are split up and now we need to go from binary to RISC-V inst
+
+    if format == 'R':
+        riscv = binary_RISCV(funct7,rs2,rs1,funct3,rd,opcode)
+    else:
+        riscv = "poo"
+    print(riscv)
+    
 
     
 if __name__ == "__main__":
