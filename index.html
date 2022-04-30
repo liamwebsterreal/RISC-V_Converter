@@ -12,7 +12,6 @@
             var str = document.getElementById("input_binary").value;
             if (str != "") {
                 let instruction = binary_to_riscv(str);
-                alert("The RISC-V Instruction is: " + instruction);
             }
             else {
                 alert("Please enter a value in the input box 1");
@@ -33,11 +32,11 @@
 <body>
     <h4>*In progess(R-Type Instructions Implemented)</h4>
     <span>
-        <label for="id">Enter Binary/Hex Instruction:</label>
+        <label for="id">Enter Binary Instruction:</label>
         <input id="input_binary" placeholder="">
         <button onclick="fn1()" id="convert_binary">Convert</button>
 
-        <label for="id">Enter Enter RISC-V Instruction:</label>
+        <label for="id">Enter Enter Hex Instruction:</label>
         <input id="input_riscv" placeholder="">
         <button onclick="fn2()" id="convert_riscv">Convert</button>
 
