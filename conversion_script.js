@@ -66,7 +66,8 @@ function binary_to_riscv(input) {
                 }
             }
             let instruction = operation  + " " + rd_register + " " + rs1_register + " " + rs2_register;
-            alert("The RISC-V Instruction is: " + instruction);
+            //alert("The RISC-V Instruction is: " + instruction);
+            return instruction;
         } else if (format == 'I') {
             let rd = parser(input, 20, 24);
             let funct3 = parser(input, 17, 19);
@@ -113,7 +114,7 @@ function binary_to_riscv(input) {
                 } else if (funct3 == '100') {
                     operation = 'xori';
                 } else if (funct3 == '101') {
-                    operation = 'sr
+                    operation = 'sr';
         } else if (format == 'S') {
     
         } else if (format == 'SB') {
@@ -127,6 +128,7 @@ function binary_to_riscv(input) {
         alert("Error Not a Valid RISC-V Instruction");
     }
 }
+    }}
 
 function riscv_to_binary(input) {
 
@@ -212,7 +214,6 @@ function digit_to_register(input) {
         return 't6';
     } 
 }
-
 function opcode_to_format(opcode) {
     if (opcode == '0000011' || opcode == '0001111' || opcode == '0010011' || opcode == '0011011' || opcode == '1100111' || opcode == '1110011') {
         return 'I';
@@ -226,5 +227,5 @@ function opcode_to_format(opcode) {
         return 'SB';
     } else if (opcode == '1101111' ) {
         return 'UJ';
-    } 14
+    } 
 }
