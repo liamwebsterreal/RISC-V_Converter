@@ -78,41 +78,7 @@ def digitToRegister(digit):
     elif digit == 31:
         return "t6"
 
-
-
-def format_getter(opcode):
-    if opcode == '0000011':
-        format = 'I'
-    elif opcode == '0001111':
-        format = 'I'
-    elif opcode == '0010011':
-        format = 'I'
-    elif opcode == '0010111':
-        format = 'U'
-    elif opcode == '0011011':
-        format = 'I'
-    elif opcode == '0100011':
-        format = 'S'
-    elif opcode == '0110011':
-        format = 'R'
-    elif opcode == '0110111':
-        format = 'U'
-    elif opcode == '0111011':
-        format = 'R'
-    elif opcode == '1100011':
-        format = 'SB'
-    elif opcode == '1100111':
-        format = 'I'
-    elif opcode == '1101111':
-        format = 'UJ'
-    elif opcode == '1110011':
-        format = 'I'
-    else:
-        print("Error! Incorrect OPCODE")
-        exit()
-    return format
-
-def hex_converter(instruction):
+def HexToBinary(instruction):
     str = "0"
     if len(instruction) == 8:
         for x in instruction:
@@ -153,7 +119,40 @@ def hex_converter(instruction):
         print("ERROR! Invalid Instruction")
         exit()
 
-def binary_RISCV(funct7,rs2,rs1,funct3,rd,opcode):
+def format_getter(opcode):
+    if opcode == '0000011':
+        format = 'I'
+    elif opcode == '0001111':
+        format = 'I'
+    elif opcode == '0010011':
+        format = 'I'
+    elif opcode == '0010111':
+        format = 'U'
+    elif opcode == '0011011':
+        format = 'I'
+    elif opcode == '0100011':
+        format = 'S'
+    elif opcode == '0110011':
+        format = 'R'
+    elif opcode == '0110111':
+        format = 'U'
+    elif opcode == '0111011':
+        format = 'R'
+    elif opcode == '1100011':
+        format = 'SB'
+    elif opcode == '1100111':
+        format = 'I'
+    elif opcode == '1101111':
+        format = 'UJ'
+    elif opcode == '1110011':
+        format = 'I'
+    else:
+        print("Error! Incorrect OPCODE")
+        exit()
+    return format
+
+
+def binarytoRISCV_R(funct7,rs2,rs1,funct3,rd,opcode):
     if opcode == '0110011':
         if funct3 == '000':
             if funct7 == '0000000':

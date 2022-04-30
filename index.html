@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type = "text/javascript" src="conversion_script.js"></script>  
+    <title>Binary/Hex <--> RISC-V Instruction</title>
+    <script type="text/javascript" >
+        function fn1()
+        {
+            var str = document.getElementById("input_binary").value;
+            if (str != "") {
+                binary_to_riscv(str);
+            }
+            else {
+                alert("Please enter a value in the input box 1");
+            }
+        }
+        function fn2()
+        {
+            var str = document.getElementById("input_riscv").value;
+            if (str != "") {
+                riscv_to_binary(str);
+            }
+            else {
+                alert("Please enter a value in the input box 2");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h4>*In progess(R-Type Instructions Implemented)</h4>
+    <span>
+        <label for="id">Enter Binary/Hex Instruction:</label>
+        <input id="input_binary" placeholder="">
+        <button onclick="fn1()" id="convert_binary">Convert</button>
+
+        <label for="id">Enter Enter RISC-V Instruction:</label>
+        <input id="input_riscv" placeholder="">
+        <button onclick="fn2()" id="convert_riscv">Convert</button>
+
+        <br>
+        <button onclick=
+            "document.getElementById(
+             'input_binary').value = ''; document.getElementById('input_riscv').value = '';">
+            Reset
+        </button>
+    </span>
+
+</body>
