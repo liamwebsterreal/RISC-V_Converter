@@ -1,2 +1,4 @@
-# RISC-V Intstruction Converter
-### Converts binary instructions into properly formated RISC-V instructions or vice-versa.# RISC-V_Converter
+RISC-V Intstruction Converter
+===
+###### Project by: Liam Webster
+ * Converts binary/hex strings into their corresponding RISC-V instructions. Or converts RISC-V instructions into binary/hex strings. 

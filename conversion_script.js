@@ -18,35 +18,21 @@ function binary_to_riscv(input) {
       let rs2 = parser(input, 7, 11);
       let funct7 = parser(input, 0, 6);
 
+      let operation = "";
+      let rd_register = "";
+      let rs1_register = "";
+      let rs2_register = "";
+
       //binary to digit for registers
       let rd_digit = binary_to_digit(rd);
       let rs1_digit = binary_to_digit(rs1);
       let rs2_digit = binary_to_digit(rs2);
       //digit to register
-      let temp = digit_to_register(rd_digit);
-      if (temp != -1) {
-        let rd_register = temp;
-      } else {
-        alert("Error Not a Valid RISC-V Instruction(Check RD)");
-        return -1;
-      }
-      temp = digit_to_register(rs1_digit);
-      if (temp != -1) {
-        let rs1_register = temp;
-      } else {
-        alert("Error Not a Valid RISC-V Instruction(Check RS1)");
-        return -1;
-      }
-      temp = digit_to_register(rs2_digit);
-      if (temp != -1) {
-          let rs2_register = temp;
-      } else {
-        alert("Error Not a Valid RISC-V Instruction(Check RS2)");
-        return -1;
-      }
+      rd_register = digit_to_register(rd_digit);
+      rs1_register = digit_to_register(rs1_digit);
+      rs2_register = digit_to_register(rs2_digit);
 
       //find operation using funct3 and funct7
-      let operation = "";
       if (opcode == "0110011") {
         if (funct7 == "0000000") {
           if (funct3 == "000") {
@@ -90,7 +76,7 @@ function binary_to_riscv(input) {
           }
         }
       }
-      if (operation != "") {
+      if (operation != "" & rd_register != "" & rs1_register != "" & rs2_register != "") {
         let instruction = operation + " " + rd_register + " " + rs1_register + " " + rs2_register;
         alert("The RISC-V Instruction is: " + instruction);
         return instruction;
@@ -250,9 +236,7 @@ function digit_to_register(input) {
     return "t5";
   } else if (input == 31) {
     return "t6";
-  } else {
-      return -1;
-  }
+  } 
 }
 function opcode_to_format(opcode) {
   if (
@@ -274,7 +258,5 @@ function opcode_to_format(opcode) {
     return "SB";
   } else if (opcode == "1101111") {
     return "UJ";
-  } else {
-    return -1;
-  }
+  } 
 }
