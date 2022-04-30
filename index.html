@@ -11,7 +11,8 @@
         {
             var str = document.getElementById("input_binary").value;
             if (str != "") {
-                binary_to_riscv(str);
+                let instruction = binary_to_riscv(str);
+                alert("The RISC-V Instruction is: " + instruction);
             }
             else {
                 alert("Please enter a value in the input box 1");
