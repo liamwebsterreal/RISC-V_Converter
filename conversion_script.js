@@ -1,12 +1,12 @@
 function binary_to_riscv(input) {
   if (input.length == 32) {
-      //Binary String Validation
-      for (let i = 0; i < 32; i++) {
-            if (input.charAt(i) != '0' & input.charAt(i) != '1') {
-                alert("Error Not a Valid Binary String");
-                return -1;
-            }
+    //Binary String Validation
+    for (let i = 0; i < 32; i++) {
+      if ((input.charAt(i) != "0") & (input.charAt(i) != "1")) {
+        alert("Error Not a Valid Binary String");
+        return -1;
       }
+    }
     let opcode = parser(input, 25, 31);
     //alert("Opcode: " + opcode);
     let format = opcode_to_format(opcode);
@@ -76,79 +76,324 @@ function binary_to_riscv(input) {
           }
         }
       }
-      if (operation != "" & rd_register != "" & rs1_register != "" & rs2_register != "") {
-        let instruction = operation + " " + rd_register + " " + rs1_register + " " + rs2_register;
+      if (
+        operation != "" &&
+        rd_register != "" &&
+        rs1_register != "" &&
+        rs2_register != ""
+      ) {
+        let instruction =
+          operation +
+          " " +
+          rd_register +
+          " " +
+          rs1_register +
+          " " +
+          rs2_register;
         alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
         return -1;
       }
-      
     } else if (format == "I") {
       let rd = parser(input, 20, 24);
       let funct3 = parser(input, 17, 19);
       let rs1 = parser(input, 12, 16);
       let imm = parser(input, 0, 11);
 
-      //imm to digit
-      let imm_digit = binary_to_digit(imm);
-      let imm_hex = parseInt(imm_digit, 10).toString(16);
-      let imm_hex_length = imm_hex.length;
-      if (imm_hex_length == 1) {
-        imm_hex = "0" + imm_hex;
-      }
-      let imm_hex_final = "0x" + imm_hex;
+
+      let operation = "";
+      let rd_register = "";
+      let rs1_register = "";
+      let imm_value = "";
+
+      //imm to digit INSERT HERE
+      imm_value = binary_to_digit(imm);
 
       //binary to digit for registers
       let rd_digit = binary_to_digit(rd);
       let rs1_digit = binary_to_digit(rs1);
       //digit to register
-      let rd_register = digit_to_register(rd_digit);
-      let rs1_register = digit_to_register(rs1_digit);
+      rd_register = digit_to_register(rd_digit);
+      rs1_register = digit_to_register(rs1_digit);
+
 
       //find operation using funct3
-      let operation = "";
-      if (opcode == "0010011") {
+      if (opcode == "0000011") {
         if (funct3 == "000") {
           operation = "lb";
         } else if (funct3 == "001") {
           operation = "lh";
         } else if (funct3 == "010") {
           operation = "lw";
+        } else if (funct3 == "011") {
+          operation = "lw";
         } else if (funct3 == "100") {
-          operation = "lbu";
+          operation = "ld";
         } else if (funct3 == "101") {
+          operation = "lbu";
+        } else if (funct3 == "110") {
           operation = "lhu";
         }
-      } else if (opcode == "0110011") {
+      } else if (opcode == "0001111") {
+        if (funct3 == "000") {
+          operation = "fence";
+        } else if (funct3 == "001") {
+          operation = "fence.i";
+        }
+      } else if (opcode == "0010011") {
         if (funct3 == "000") {
           operation = "addi";
-        } else if (funct3 == "010") {
+        } else if (funct3 == "001") {
           operation = "slli";
-        } else if (funct3 == "011") {
+        } else if (funct3 == "010") {
           operation = "slti";
+        } else if (funct3 == "011") {
+          operation = "sltiu";
         } else if (funct3 == "100") {
           operation = "xori";
+        } else if (funct3 == "101" && imm_value == "0000000") {
+          operation = "srli";
+        } else if (funct3 == "101" && imm_value == "0100000") {
+          operation = "srai";
+        } else if (funct3 == "110") {
+          operation = "ori";
+        } else if (funct3 == "111") {
+          operation = "andi";
+        }
+      } else if (opcode == "0011011") {
+        if (funct3 == "000") {
+          operation = "addiw";
+        } else if (funct3 == "001") {
+          operation = "slliw";
+        } else if (funct3 == "101" && imm_value == "0000000") {
+          operation = "srliw";
+        } else if (funct3 == "101" && imm_value == "0100000") {
+          operation = "sraiw";
+        }
+      } else if (opcode == "1100111") {
+        if (funct2 == "00") {
+          operation = "jalr";
+        }
+      } else if (opcode == "1110011") {
+        if (funct3 == "000" && imm_value == "000000000000") {
+          operation = "ecall";
+        } else if (funct3 == "000" && imm_value == "000000000001") {
+          operation = "ebreak";
+        } else if (funct3 == "001") {
+          operation = "CSRRW";
+        } else if (funct3 == "010") {
+          operation = "CSRRS";
+        } else if (funct3 == "011") {
+          operation = "CSRRC";
         } else if (funct3 == "101") {
-          operation = "sr";
-        } else if (format == "S") {
-        } else if (format == "SB") {
-        } else if (format == "U") {
-        } else if (format == "UJ") {
+          operation = "CSRRWI";
+        } else if (funct3 == "110") {
+          operation = "CSRRSI";
+        } else if (funct3 == "111") {
+          operation = "CSRRCI";
         }
       }
-    } else if (format == "S") {
-
-    } else if (format == "SB") {
-
-    } else if (format == "U") {
-
-    } else if (format == "UJ") {
-
-    } else {
+      //Putting it all together
+      if (
+        operation != "" &&
+        rd_register != "" &&
+        rs1_register != "" &&
+        imm_value != ""
+      ) {
+        let instruction =
+          operation + " " + rd_register + " " + rs1_register + " " + imm_value;
+        alert("The RISC-V Instruction is: " + instruction);
+        return instruction;
+      } else {
         alert("Error Not a Valid RISC-V Instruction");
         return -1;
+      }
+    } else if (format == "S") {
+      let imm1 = parser(input, 20, 24);
+      let funct3 = parser(input, 17, 19);
+      let rs1 = parser(input, 12, 16);
+      let rs2 = parser(input, 7, 11);
+      let imm2 = parser(input, 0, 6);
+
+      let operation = "";
+      let rs1_register = "";
+      let rs2_register = "";
+      let imm_value = "";
+
+      //imm to digit
+      let imm = imm1 + imm2;
+      imm_value = binary_to_digit(imm);
+
+      //binary to digit for registers
+      let rs1_digit = binary_to_digit(rs1);
+      let rs2_digit = binary_to_digit(rs2);
+
+      //digit to register
+      rs1_register = digit_to_register(rs1_digit);
+      rs2_register = digit_to_register(rs2_digit);
+
+      //find operation using funct3
+      if (opcode == "0100011") {
+        if (funct3 == "000") {
+          operation = "sb";
+        } else if (funct3 == "001") {
+          operation = "sh";
+        } else if (funct3 == "010") {
+          operation = "sw";
+        } else if (funct3 == "011") {
+          operation = "sd";
+        }
+      }
+
+      //Putting it all together
+      if (
+        operation != "" &&
+        rs1_register != "" &&
+        rs2_register != "" &&
+        imm_value != ""
+      ) {
+        let instruction =
+          operation + " " + rs1_register + " " + rs2_register + " " + imm_value;
+        alert("The RISC-V Instruction is: " + instruction);
+        return instruction;
+      } else {
+        alert("Error Not a Valid RISC-V Instruction");
+        return -1;
+      }
+    } else if (format == "SB") {
+      let imm3 = parser(input, 24, 24);
+      let imm1 = parser(input, 20, 23);
+      let funct3 = parser(input, 17, 19);
+      let rs1 = parser(input, 12, 16);
+      let rs2 = parser(input, 7, 11);
+      let imm2 = parser(input, 1, 6);
+      let imm4 = parser(input, 0, 0);
+
+      let operation = "";
+      let rs1_register = "";
+      let rs2_register = "";
+      let imm_value = "";
+
+      //imm to digit
+      let imm = "1" + imm1 + imm2 + imm3 + imm4;
+      imm_value = binary_to_digit(imm);
+
+      //binary to digit for registers
+      let rs1_digit = binary_to_digit(rs1);
+      let rs2_digit = binary_to_digit(rs2);
+
+      //digit to register
+      rs1_register = digit_to_register(rs1_digit);
+      rs2_register = digit_to_register(rs2_digit);
+
+      //find operation using funct3
+      if (opcode == "1100011") {
+        if (funct3 == "000") {
+          operation = "beq";
+        } else if (funct3 == "001") {
+          operation = "bne";
+        } else if (funct3 == "100") {
+          operation = "blt";
+        } else if (funct3 == "101") {
+          operation = "bge";
+        } else if (funct3 == "110") {
+          operation = "bltu";
+        } else if (funct3 == "111") {
+          operation = "bgeu";
+        }
+      }
+
+      //Putting it all together
+      if (
+        operation != "" &&
+        rs1_register != "" &&
+        rs2_register != "" &&
+        imm_value != ""
+      ) {
+        let instruction =
+          operation + " " + rs1_register + " " + rs2_register + " " + imm_value;
+        alert("The RISC-V Instruction is: " + instruction);
+        return instruction;
+      } else {
+        alert("Error Not a Valid RISC-V Instruction");
+        return -1;
+      }
+    } else if (format == "U") {
+      let rd = parser(input, 24, 24);
+      let imm1 = parser(input, 0, 23);
+
+      let operation = "";
+      let rd_register = "";
+      let imm_value = "";
+
+      //imm to digit sign extended???
+      let imm = "Need to implement";
+      
+      //binary to digit for registers
+      let rd_digit = binary_to_digit(rd);
+
+      //digit to register
+      rd_register = digit_to_register(rd_digit);
+
+      if (opcode == "0010111") {
+        operation == "auipc";
+      } else if (opcode == "0110111") {
+        operation == "lui";
+      }
+
+      //Putting it all together
+      if (operation != "" && imm_value != "") {
+        let instruction = operation + " " + imm_value;
+        alert("The RISC-V Instruction is: " + instruction);
+        return instruction;
+      } else {
+        alert("Error Not a Valid RISC-V Instruction");
+        return -1;
+      }
+    } else if (format == "UJ") {
+      let rd = parser(input, 20, 24);
+      let imm3 = parser(input, 16, 19);
+      let imm2 = parser(input, 15, 15);
+      let imm1 = parser(input, 1, 14);
+      let imm4 = parser(input, 0, 0);
+
+      let operation = "";
+      let rd_register = "";
+      let imm_value = "";
+
+      //imm to digit
+      let imm1_rev = reverse_string(imm1);
+      let imm3_rev = reverse_string(imm2);
+      let imm = "0" + imm1_rev + imm2 + imm3_rev + imm4;
+      imm_value = binary_to_digit(imm);
+
+      //binary to digit for registers
+      let rd_digit = binary_to_digit(rd);
+
+      //digit to register
+      rd_register = digit_to_register(rd_digit);
+      alert(rd_register);
+      alert(imm_value);
+      alert(opcode);
+
+      if (opcode == "1101111") {
+        operation = "jal";
+      } 
+
+      //Putting it all together
+      if (operation != "" && imm_value != "") {
+        let instruction = operation + " " + rd_register + " " + imm_value + "Bytes";
+        alert("The RISC-V Instruction is: " + instruction);
+        return instruction;
+      } else {
+        alert("Error Not a Valid RISC-V Instruction");
+        return -1;
+      }
+    } else {
+      alert("Error Not a Valid RISC-V Instruction");
+      return -1;
     }
   } else {
     alert("Error Not a Valid Input(Input should be of length 32)");
@@ -236,7 +481,7 @@ function digit_to_register(input) {
     return "t5";
   } else if (input == 31) {
     return "t6";
-  } 
+  }
 }
 function opcode_to_format(opcode) {
   if (
@@ -258,5 +503,13 @@ function opcode_to_format(opcode) {
     return "SB";
   } else if (opcode == "1101111") {
     return "UJ";
-  } 
+  }
+}
+
+function string_reverse(input) {
+  let reversed = "";
+  for (let i = input.length - 1; i >= 0; i--) {
+    reversed += input[i];
+  }
+  return reversed;
 }
