@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script type = "text/javascript" src="conversion_script.js"></script>  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script type="text/javascript" src="conversion_script.js"></script>
     <title>Binary/Hex <--> RISC-V Instruction</title>
-    <script type="text/javascript" >
-        function fn1()
-        {
-            var str = document.getElementById("input_binary").value;
-            if (str != "") {
-                let instruction = binary_to_riscv(str);
-            }
-            else {
-                alert("Please enter a value in the input box 1");
-            }
+    <script type="text/javascript">
+      function fn1() {
+        var str = document.getElementById("input_binary").value;
+        if (str != "") {
+          let instruction = "";
+          instruction = binary_to_riscv(str, instruction);
+          document.getElementById("instruction").innerHTML = instruction;
+        } else {
+          alert("Please enter a value in the input box");
         }
-        function fn2()
-        {
-            var str = document.getElementById("input_riscv").value;
-            if (str != "") {
-                riscv_to_binary(str);
-            }
-            else {
-                alert("Please enter a value in the input box 2");
-            }
+      }
+      function fn2() {
+        var str = document.getElementById("input_hex").value;
+        if (str != "") {
+          instruction = hex_to_riscv(str);
+        } else {
+          alert("Please enter a value in the input box");
         }
+      }
+      function fn2() {
+        var str = document.getElementById("input_riscv").value;
+        if (str != "") {
+          alert("this will convert RISC-V to binary");
+        } else {
+          alert("Please enter a value in the input box");
+        }
+      }
     </script>
-</head>
-<body>
-    <h4>*In progess(R-Type Instructions Implemented)</h4>
-    <span>
+  </head>
+  <body>
+    <h1 id="title" style="text-align: center;">Binary/Hex Instruction <--> RISC-V Instruction</h1>
+
+    <div class="row">
+      <div class="column" style="padding: 2.5%; align-self: flex-start;">
+        <br>
+        <br>
         <label for="id">Enter Binary Instruction:</label>
-        <input id="input_binary" placeholder="">
-        <button onclick="fn1()" id="convert_binary">Convert</button>
+        <input id="input_binary" placeholder="" />
+        <button id="input_button" onclick="fn1()" id="convert_binary">Convert</button>
+        <br />
+        <button
+          onclick="document.getElementById(
+                     'input_binary').value = ''; document.getElementById('input_binary').value = '';"
+        >
+          Reset
+        </button>
+
+        <br /><br />
 
         <label for="id">Enter Enter Hex Instruction:</label>
-        <input id="input_riscv" placeholder="">
-        <button onclick="fn2()" id="convert_riscv">Convert</button>
-
-        <br>
-        <button onclick=
-            "document.getElementById(
-             'input_binary').value = ''; document.getElementById('input_riscv').value = '';">
-            Reset
+        <input id="input_hex" placeholder="" />
+        <button id="input_button" onclick="fn2()" id="convert_riscv">Convert</button>
+        <br />
+        <button
+          onclick="document.getElementById(
+                     'input_hex').value = ''; document.getElementById('input_hex').value = '';"
+        >
+          Reset
         </button>
-    </span>
-    <br>
 
-</body>
+        <br /><br />
+        <label for="id">Enter RISC-V Instruction:</label>
+        <input id="input_RISCV" placeholder="" />
+        <button id="input_button"  onclick="fn3()" id="convert_RISCV">Convert</button>
+        <br />
+        <button
+          onclick="document.getElementById(
+                     'input_RISCV').value = ''; document.getElementById('input_RISCV').value = '';"
+        >
+          Reset
+        </button>
+      </div>
+      <div class="column" style="padding: 2.5%; align-content: flex-start;">
+        <h4 style="text-align: start;">OUTPUT:</h4>
+      <div id="output_box">
+        <p id="instruction" style="font-size: 15;"></p>
+      </div>
+      </div>
+    </div>
+  </body>
+</html>

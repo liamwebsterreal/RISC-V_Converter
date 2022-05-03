@@ -1,4 +1,36 @@
 body {
-    background-color: whitesmoke;
+  background-color: white;
 }
- 
+h1 {
+  color: black;
+  font: bold 20/1.5 Helvetica, sans-serif;
+}
+
+#output_box {
+  width: 300px;
+  border: 15px solid black;
+  padding: 50px;
+  margin: 20px;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+}
+#input_button {
+  border-radius: 5;
+  border: 1px solid gray;
+    border-end-end-radius: 5;    
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}

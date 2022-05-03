@@ -1,10 +1,10 @@
-function binary_to_riscv(input) {
+function binary_to_riscv(input, instruction) {
   if (input.length == 32) {
     //Binary String Validation
     for (let i = 0; i < 32; i++) {
       if ((input.charAt(i) != "0") & (input.charAt(i) != "1")) {
         alert("Error Not a Valid Binary String");
-        return -1;
+        return instruction;
       }
     }
     let opcode = parser(input, 25, 31);
@@ -82,7 +82,7 @@ function binary_to_riscv(input) {
         rs1_register != "" &&
         rs2_register != ""
       ) {
-        let instruction =
+        instruction =
           operation +
           " " +
           rd_register +
@@ -90,11 +90,11 @@ function binary_to_riscv(input) {
           rs1_register +
           " " +
           rs2_register;
-        alert("The RISC-V Instruction is: " + instruction);
+        //alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else if (format == "I") {
       let rd = parser(input, 20, 24);
@@ -202,13 +202,13 @@ function binary_to_riscv(input) {
         rs1_register != "" &&
         imm_value != ""
       ) {
-        let instruction =
+        instruction =
           operation + " " + rd_register + " " + rs1_register + " " + imm_value;
-        alert("The RISC-V Instruction is: " + instruction);
+        //alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else if (format == "S") {
       let imm1 = parser(input, 20, 24);
@@ -260,7 +260,7 @@ function binary_to_riscv(input) {
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else if (format == "SB") {
       let imm3 = parser(input, 24, 24);
@@ -318,7 +318,7 @@ function binary_to_riscv(input) {
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else if (format == "U") {
       let rd = parser(input, 24, 24);
@@ -350,7 +350,7 @@ function binary_to_riscv(input) {
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else if (format == "UJ") {
       let rd = parser(input, 20, 24);
@@ -389,14 +389,15 @@ function binary_to_riscv(input) {
         return instruction;
       } else {
         alert("Error Not a Valid RISC-V Instruction");
-        return -1;
+        return instruction;
       }
     } else {
       alert("Error Not a Valid RISC-V Instruction");
-      return -1;
+      return instruction;
     }
   } else {
     alert("Error Not a Valid Input(Input should be of length 32)");
+    return instruction;
   }
 }
 
