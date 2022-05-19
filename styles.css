@@ -1,24 +1,93 @@
-body {
-  background-color: white;
-}
-h1 {
-  color: black;
-  font: bold 20/1.5 Helvetica, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#output_box {
+body {
+  background-color: whitesmoke;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 200;
+}
+h4 {
+  font-size: 1.5rem;
+  font-weight: 200;
+}
+label {
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+button {
+  padding: 0.5rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 100;
+  border-radius: 0.5rem;
+  border-width: 0.1ch;
+}
+input {
+  padding: 0.5rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 100;
+  border-radius: 0.5rem;
+  border-width: 0.01ch;
+}
+p {
+  font-size: 1rem;
+  font-weight: 100;
+}
+
+
+.footer {
+  font-size: 0.5rem;
+  font-weight: 100;
+}
+
+.container {
+  display: grid;
+  height: 100vh;
+
+  /*pancake layout */
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  padding: 1%;
+  color: black;
+  background-color: white;
+  text-align: center;
+  text-size-adjust: 100%;
+}
+footer {
+  padding: 1%;
+  color: black;
+  background-color: white;
+  text-align: center;
+}
+
+.column_content {
+  padding: 5%;
+  align-self: center;
+}
+
+.output_box {
   width: 300px;
-  border: 15px solid black;
+  border: 5px solid grey;
   padding: 50px;
-  margin: 20px;
+  border-radius: 1rem;
+  margin: 6%;
   align-self: center;
   align-items: center;
   align-content: center;
 }
 #input_button {
   border-radius: 5;
-  border: 1px solid gray;
-    border-end-end-radius: 5;    
+  border: 1px solid gray;    
 }
 
 .row {

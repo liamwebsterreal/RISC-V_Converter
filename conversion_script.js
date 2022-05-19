@@ -223,7 +223,7 @@ function binary_to_riscv(input, instruction) {
       let imm_value = "";
 
       //imm to digit
-      let imm = imm1 + imm2;
+      let imm = imm2 + imm1;
       imm_value = binary_to_digit(imm);
 
       //binary to digit for registers
@@ -255,7 +255,7 @@ function binary_to_riscv(input, instruction) {
         imm_value != ""
       ) {
         let instruction =
-          operation + " " + rs1_register + " " + rs2_register + " " + imm_value;
+          operation + " " + rs1_register + " " + rs2_register + "Offset(bytes): " + imm_value;
         alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
@@ -277,7 +277,7 @@ function binary_to_riscv(input, instruction) {
       let imm_value = "";
 
       //imm to digit
-      let imm = "1" + imm1 + imm2 + imm3 + imm4;
+      let imm = imm4 + imm3 + imm2 + imm1 + "0";
       imm_value = binary_to_digit(imm);
 
       //binary to digit for registers
@@ -313,7 +313,7 @@ function binary_to_riscv(input, instruction) {
         imm_value != ""
       ) {
         let instruction =
-          operation + " " + rs1_register + " " + rs2_register + " " + imm_value;
+          operation + " " + rs1_register + " " + rs2_register + "Offset(bytes): " + imm_value;
         alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
@@ -329,7 +329,8 @@ function binary_to_riscv(input, instruction) {
       let imm_value = "";
 
       //imm to digit sign extended???
-      let imm = "Need to implement";
+      let imm = imm1 + "000000000000";
+      imm_value = binary_to_digit(imm);
       
       //binary to digit for registers
       let rd_digit = binary_to_digit(rd);
@@ -365,8 +366,7 @@ function binary_to_riscv(input, instruction) {
 
       //imm to digit
       let imm1_rev = reverse_string(imm1);
-      let imm3_rev = reverse_string(imm2);
-      let imm = "0" + imm1_rev + imm2 + imm3_rev + imm4;
+      let imm =  imm4+ imm3 + imm2 + imm1 + "0";
       imm_value = binary_to_digit(imm);
 
       //binary to digit for registers
@@ -384,7 +384,7 @@ function binary_to_riscv(input, instruction) {
 
       //Putting it all together
       if (operation != "" && imm_value != "") {
-        let instruction = operation + " " + rd_register + " " + imm_value + "Bytes";
+        let instruction = operation + " " + rd_register + "Offset(bytes): " + imm_value;
         alert("The RISC-V Instruction is: " + instruction);
         return instruction;
       } else {
@@ -401,8 +401,22 @@ function binary_to_riscv(input, instruction) {
   }
 }
 
-function hex_to_binary(input) {
-  alert("Value inside the input box 2 is: " + input);
+function hex_to_riscv(input, instruction) {
+  if(input.length == 8){
+    for (let i = 0; i < 8; i++) {
+      if ((input.charAt(i) != "A") & (input.charAt(i) != "B") & (input.charAt(i) != "C") & (input.charAt(i) != "D") & (input.charAt(i) != "E") & (input.charAt(i) != "F") & (input.charAt(i) != "a") & (input.charAt(i) != "b") & (input.charAt(i) != "c") & (input.charAt(i) != "d") & (input.charAt(i) != "e") & (input.charAt(i) != "f") & (input.charAt(i) != "0") & (input.charAt(i) != "1") & (input.charAt(i) != "2") & (input.charAt(i) != "3") & (input.charAt(i) != "4") & (input.charAt(i) != "5") & (input.charAt(i) != "6") & (input.charAt(i) != "7") & (input.charAt(i) != "8") & (input.charAt(i) != "9")) {
+        alert("Error Not a Valid Hex String");
+        return instruction;
+      }
+    }
+    let binary = hex_to_binary(input);
+    instruction = binary_to_riscv(binary, instruction);
+    return instruction;
+  }
+  else {
+    alert("Error Not a Valid Input(Input should be of length 8)");
+    return instruction;
+  }
 }
 
 function parser(input, p1, p2) {
@@ -484,6 +498,7 @@ function digit_to_register(input) {
     return "t6";
   }
 }
+
 function opcode_to_format(opcode) {
   if (
     opcode == "0000011" ||
@@ -513,4 +528,44 @@ function string_reverse(input) {
     reversed += input[i];
   }
   return reversed;
+}
+
+function hex_to_binary(input) {
+  let binary = "";
+  for (let i = 0; i < input.length; i++) {
+    if (input.charAt(i) == "0") {
+      binary += "0000";
+    } else if (input.charAt(i) == "1") {
+      binary += "0001";
+    } else if (input.charAt(i) == "2") {
+      binary += "0010";
+    } else if (input.charAt(i) == "3") {
+      binary += "0011";
+    } else if (input.charAt(i) == "4") {
+      binary += "0100";
+    } else if (input.charAt(i) == "5") {
+      binary += "0101";
+    } else if (input.charAt(i) == "6") {
+      binary += "0110";
+    } else if (input.charAt(i) == "7") {
+      binary += "0111";
+    } else if (input.charAt(i) == "8") {
+      binary += "1000";
+    } else if (input.charAt(i) == "9") {
+      binary += "1001";
+    } else if (input.charAt(i) == "A") {
+      binary += "1010";
+    } else if (input.charAt(i) == "B") {
+      binary += "1011";
+    } else if (input.charAt(i) == "C") {
+      binary += "1100";
+    } else if (input.charAt(i) == "D") {
+      binary += "1101";
+    } else if (input.charAt(i) == "E") {
+      binary += "1110";
+    } else if (input.charAt(i) == "F") {
+      binary += "1111";
+    }
+  }
+  return binary;
 }
